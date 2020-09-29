@@ -32,4 +32,9 @@ class Choice(models.Model):
     def __str__(self):
         return self.choice_text
 
+    def choices(self):
+        if not hasattr(self, '_choices'):
+            self._choices = self.choices.all()
+        return self._choices
+
 # Create your models here.
