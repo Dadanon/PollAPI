@@ -16,6 +16,9 @@ class Question(models.Model):
     def verbose_question_text(self):
         return 'Question: %s' % self.question_text
 
+    class Meta:
+        ordering = ("-pub_date", )
+
 
 class Choice(models.Model):
     question = models.ForeignKey(

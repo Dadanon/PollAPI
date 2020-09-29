@@ -31,6 +31,17 @@ def question_detail_view(request, question_id):
         serializer = QuestionSerializer(question)
         return Response(serializer.data)
     elif request.method == 'PATCH':
-        raise NotImplementedError('PATCH not supported, btch!')
+        serializer = QuestionSerializer(question, data=request.data, partial=True)
+
+        if serializer.is_valid():
+            question = serializer.save()
+            return Response(QuestionSerializer(question).data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     elif request.method == 'DELETE':
-        raise NotImplementedError('Mamy svoy DELETE!')
+        question.delete()
+        return Response('Question deleted', status=status.HTTP_204_NO_CONTENT)
+
+
+@api_view(['POST'])
+def choices_view(request, question_id):
+    question = get_object_or_404(Question, pk=question_id)
