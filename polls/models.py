@@ -19,6 +19,16 @@ class Question(models.Model):
     class Meta:
         ordering = ("-pub_date", )
 
+    def choices(self):
+        if not hasattr(self, '_choices'):
+            self._choices = self.choices.all()
+        return self._choices
+
+    def save(self, *args, **kwargs):
+        if self.pub_date > now():
+            raise ValueError("Can't set a date later than now :(")
+        super(Question, self).save(*args, **kwargs)
+
 
 class Choice(models.Model):
     question = models.ForeignKey(
@@ -31,10 +41,5 @@ class Choice(models.Model):
 
     def __str__(self):
         return self.choice_text
-
-    def choices(self):
-        if not hasattr(self, '_choices'):
-            self._choices = self.choices.all()
-        return self._choices
 
 # Create your models here.

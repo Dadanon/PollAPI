@@ -5,10 +5,9 @@ from django.shortcuts import get_object_or_404
 
 from polls.models import Question, Choice
 from .serializers import (
-    QuestionListSerializer,
+    QuestionSerializer,
     QuestionDetailSerializer,
     ChoiceSerializer,
-    ChoiceListSerializer,
     VoteSerializer,
 )
 
@@ -17,10 +16,10 @@ from .serializers import (
 def questions_view(request):
     if request.method == 'GET':
         questions = Question.objects.all()
-        serializer = QuestionListSerializer(questions, many=True)
+        serializer = QuestionSerializer(questions, many=True)
         return Response(serializer.data)
     elif request.method == 'POST':
-        serializer = QuestionListSerializer(data=request.data)
+        serializer = QuestionSerializer(data=request.data)
 
         if serializer.is_valid():
             Question.objects.create(**serializer.validated_data)
@@ -53,7 +52,7 @@ def choices_view(request, question_id):
 
     if request.method == 'GET':
         choices = Choice.objects.filter(question=question)
-        serializer = ChoiceListSerializer(choices, many=True)
+        serializer = ChoiceSerializer(choices, many=True)
         return Response(serializer.data)
     elif request.method == 'POST':
         serializer = ChoiceSerializer(data=request.data)
