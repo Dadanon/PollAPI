@@ -39,7 +39,7 @@ In the console go to the folder you want and type:
 
 Go to the project directory, enter to the virtual environment by
 
-typing **`pipenv shell`**, then install packages with the command
+typing **`pipenv shell`** (if you have not **`pipenv`** - type **`pip install pipenv`** then install packages with the command
 
 ******`pipenv install`******, make migrations with
 
